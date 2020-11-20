@@ -2,19 +2,27 @@ package assert
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/assert"
 )
 
-func (t *Panic) Errorf(format string, args ...interface{}) {
+func (t *panicHandler) Errorf(format string, args ...interface{}) {
 	panic(fmt.Errorf(format, args...))
 }
 
-func NewPanic() *Panic {
-	p := &Panic{}
-	p.Assertions = assert.New(p)
+func newPanicHandler() *panicHandler {
+	p := &panicHandler{}
+	p.Assertions = New(p)
 	return p
 }
 
-type Panic struct {
-	*assert.Assertions
+type panicHandler struct {
+	*Assertions
 }
+
+var panicAssertions = newPanicHandler().Assertions
+
+func PanicUnless() *Assertions {
+	return panicAssertions
+}
+
+
+
