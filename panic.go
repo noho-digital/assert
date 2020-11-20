@@ -4,9 +4,11 @@ import (
 	"fmt"
 )
 
+
 func (t *panicHandler) Errorf(format string, args ...interface{}) {
 	panic(fmt.Errorf(format, args...))
 }
+
 
 func newPanicHandler() *panicHandler {
 	p := &panicHandler{}
@@ -17,12 +19,3 @@ func newPanicHandler() *panicHandler {
 type panicHandler struct {
 	*Assertions
 }
-
-var panicAssertions = newPanicHandler().Assertions
-
-func PanicUnless() *Assertions {
-	return panicAssertions
-}
-
-
-
